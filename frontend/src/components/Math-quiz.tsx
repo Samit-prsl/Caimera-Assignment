@@ -18,7 +18,7 @@ export function MathQuiz() {
 
   useEffect(() => {
     joinRoom();
-    socket.on('receive', (message) => {
+      socket.on('receive', (message) => {
       console.log('Message received:', message);
       window.location.reload();
     });
@@ -27,13 +27,6 @@ export function MathQuiz() {
       socket.off('receive'); 
     };
   }, []);
-
-
-  useEffect(()=>{
-    if(Correct){
-      generateProblem()
-    }
-  },[Correct])
 
 // async function currentUser() {
 //   await get<string>('api/user').then((data:string)=>{console.log(data)}).catch(()=>{alert('soemthing went wrong')})
@@ -63,15 +56,17 @@ async function generateProblem() {
     }
     if (answer === correctAnswer) {
       setIsCorrect(true)
+      const winner = 'anonymous'
+      await put(`api/answer/${id}`,{answer,winner})
+      .then((data)=>{console.log(data)})
+      .catch(()=>{console.log(`something went wrong`);
+      });
       res = sendAnswer(answer)
      if(res === correctAnswer) {
-      const winner = 'anonymous'
-       await put(`api/answer/${id}`,{answer,winner})
-       .then((data)=>{console.log(data)})
-       .catch(()=>{console.log(`something went wrong`);
-       });
+      //setTimeout(generateProblem, 3000)
+      console.log(Correct);
+      
     }
-      setTimeout(generateProblem, 3000)
     }
     else {
       setIsCorrect(false)
