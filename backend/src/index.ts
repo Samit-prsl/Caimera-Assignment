@@ -1,4 +1,4 @@
-import  express,{Application,Response} from "express"
+import  express,{Application,Response,Request} from "express"
 import dotenv from 'dotenv'
 dotenv.config()
 import cors from 'cors'
@@ -10,9 +10,9 @@ const PORT : any = process.env.PORT || 3000
 
 app.use(cors())
 app.use(express.json())
-app.get('/',(res:Response):void=>{
-    res.status(200).json('Working fine in typescript')
-})
+app.get('/', (req: Request, res: Response): void => {
+  res.status(200).json('Working fine in TypeScript');
+});
 app.use('/api',routes)
 
 dbConnection()
